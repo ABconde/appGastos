@@ -18,14 +18,20 @@ def get_all():
         code = 500
     return { "message": users, "code": code }
 
-def login(**data):
+def login(obj):
     try:
-        docs = users_ref.where('email', '==', data.get('em')).where('pass', '==', data.get('pw')).get()
+        docs = users_ref.where('email', '==', obj.get('email')).where('pass', '==', obj.get('pass')).get()
+        user = {}
         for doc in docs:
             userObj = User(id = doc.id)
             userObj.from_dict(doc.to_dict())
             user = userObj.to_dict()
-        code = 200
+        if 'id' in user :
+            code = 200
+        else:
+            print(user)
+            user = users = { 'Error': "User Not Found" }
+            code = 401
     except Exception as e:
         user = { 'Error': str(e) }
         code = 500
@@ -70,10 +76,22 @@ def update(user, obj):
             'email': obj.get("email"),
             'name': obj.get("name"),
             'lastname': obj.get("lastname"),
+            'updated_date': datetime.now()
+        })
+        message = { 'message': "Usuario actualizado" }
+        code = 200
+    except Exception as e:
+        message = { 'Error': str(e) }
+        code = 500
+    return { "message": message, "code": code }
+
+def change_password(user, obj):
+    try:
+        users_ref.document(user).update({
             'pass': obj.get("pass"),
             'updated_date': datetime.now()
         })
-        message = { 'message': "Usuario creado" }
+        message = { 'message': "Usuario actualizado" }
         code = 200
     except Exception as e:
         message = { 'Error': str(e) }

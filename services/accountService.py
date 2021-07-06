@@ -19,6 +19,21 @@ def get_by_user(user):
         code = 500 
     return { "message": accounts, "code": code }
 
+def get(account):
+    try:
+        doc = account_ref.document(account).get()
+        if doc.exists:
+            accountObj = Account(id = doc.id)
+            accountObj.from_dict(doc.to_dict())
+            account = accountObj.to_dict()
+            code = 200
+        else:
+            account = { "Error": "Cuenta no encontrada" }
+            code = 404
+    except Exception as e:
+        account = { 'Error': str(e) }
+        code = 500
+    return { "message": account, "code": code }
 
 def create(obj):
     try:

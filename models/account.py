@@ -3,8 +3,8 @@ class Account:
     def __init__(self, **data):
         self.id = data.get('id')
         self.name = 'Default Name'
-        self.created_Date = 'Default created date'
-        self.updated_Date = 'Default updated date'
+        self.created_date = 'Default created date'
+        self.updated_date = 'Default updated date'
 
     def from_dict(self, data):
         self.name = data['name']

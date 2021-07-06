@@ -18,7 +18,6 @@ def init():
     return format_response({ "message": data_u.__dict__, "code": 200 })
 
 # -------- Users --------
-
 @app.route("/users/all", methods=['GET'])
 def get_all_users():
     return format_response(userService.get_all())
@@ -27,24 +26,52 @@ def get_all_users():
 def get_user_by_id(id):
     return format_response(userService.get(id))
 
-@app.route("/user/<email>/<pw>", methods=['GET'])
-def get_user(email, pw):
-    return format_response(userService.login(em = email, pw = pw))
+@app.route("/user/login", methods=['PATCH'])
+def get_user_login():
+    obj = request.get_json()
+    return format_response(userService.login(obj))
 
 @app.route("/user", methods=['POST'])
 def create_user():
     obj = request.get_json()
     return format_response( userService.create(obj) )
 
+@app.route("/user/<id>", methods=['PUT'])
+def update_user(id):
+    obj = request.get_json()
+    return format_response(userService.update(id,obj))
+
+@app.route("/user/pass/<id>", methods=['PUT'])
+def update_user_pass(id):
+    obj = request.get_json()
+    return format_response(userService.change_password(id, obj))
+
 # -------- Accounts --------
 @app.route("/account/<user>", methods=['GET'])
 def get_account_by_user(user):
     return format_response(accountService.get_by_user(user))
 
+@app.route("/account/<id>", methods=['GET'])
+def get_account(id):
+    return format_response(accountService.get_by_user(id))
+
 @app.route("/account", methods=['POST'])
 def create_account():
     obj = request.get_json()
     return format_response( accountService.create(obj) )
+
+@app.route("/account/<id>", methods=['PUT'])
+def update_account(id):
+    obj = request.get_json()
+    return format_response(accountService.update(id,obj))
+
+@app.route("/account/<id>", methods=['DELETE'])
+def delete_account(id):
+    return format_response(accountService.delete(id))
+
+# -------- Expenses  --------
+
+
 
 # -------- Functions --------
 

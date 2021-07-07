@@ -14,8 +14,7 @@ app = Flask(__name__)
 @app.route("/")
 def init():
     data = { 'Message': 'Pagina de inicio del API' }
-    data_u = User(id='1')
-    return format_response({ "message": data_u.__dict__, "code": 200 })
+    return format_response({ "message": data, "code": 200 })
 
 # -------- Users --------
 @app.route("/users/all", methods=['GET'])

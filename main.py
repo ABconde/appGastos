@@ -79,6 +79,11 @@ def get_expenses_by_account_and_date_range(account):
     obj = request.get_json()
     return format_response(expenseService.get_by_acount_and_date_range(account, obj))
 
+@app.route("/expense/", methods=['POST'])
+def create_expense():
+    obj = request.get_json()
+    return format_response( expenseService.create(obj) )
+
 # -------- Functions --------
 
 def format_response(request):

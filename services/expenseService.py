@@ -44,3 +44,21 @@ def get_by_acount_and_date_range(account, obj):
         data = { 'Error': str(e) }
         code = 500 
     return { "message": data, "code": code }
+
+def create(obj):
+    try:
+        date = datetime.strptime(obj.get('date'), "%d/%m/%Y")
+        expense_ref.add({
+            'comment': obj.get('comment'),
+            'amount': obj.get('amount'),
+            'account': obj.get('account'),
+            'date': date,
+            'created_date': datetime.now(),
+            'updated_date': datetime.now()
+        })
+        message = { 'message': "Gasto Agregado" }
+        code = 200
+    except Exception as e:
+        message = { 'Error': str(e) }
+        code = 500
+    return { "message": message, "code": code }

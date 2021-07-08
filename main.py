@@ -2,7 +2,7 @@ from flask import Flask, redirect, request, Response
 
 import connection
 import json
-from services import userService, accountService
+from services import userService, accountService, expenseService
 from models.user import User
 
 app = Flask(__name__)
@@ -70,7 +70,14 @@ def delete_account(id):
 
 # -------- Expenses  --------
 
+@app.route("/expense/account/<account>", methods=['GET'])
+def get_expenses_by_account(account):
+    return format_response(expenseService.get_all_by_account(account))
 
+@app.route("/expense/account/<account>", methods=['PATCH'])
+def get_expenses_by_account_and_date_range(account):
+    obj = request.get_json()
+    return format_response(expenseService.get_by_acount_and_date_range(account, obj))
 
 # -------- Functions --------
 

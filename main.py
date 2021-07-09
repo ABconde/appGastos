@@ -74,6 +74,10 @@ def delete_account(id):
 def get_expenses_by_account(account):
     return format_response(expenseService.get_all_by_account(account))
 
+@app.route("/expense/<id>", methods=['GET'])
+def get_expense(id):
+    return format_response(expenseService.get(id))
+
 @app.route("/expense/account/<account>", methods=['PATCH'])
 def get_expenses_by_account_and_date_range(account):
     obj = request.get_json()

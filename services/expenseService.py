@@ -45,6 +45,23 @@ def get_by_acount_and_date_range(account, obj):
         code = 500 
     return { "message": data, "code": code }
 
+def get(expense):
+    try:
+        doc = expense_ref.document(expense).get()
+        if doc.exists:
+            expenseObj = Expense(id = doc.id)
+            expenseObj.from_dict(doc.to_dict())
+            expense = expenseObj.to_dict()
+            code = 200
+        else:
+            expense = { "Error": "Gasto no encontrado" }
+            code = 404
+    except Exception as e:
+        expense = { "Error": str(e) }
+        code = 500
+    return { "message": expense, "code": code }
+
+
 def create(obj):
     try:
         date = datetime.strptime(obj.get('date'), "%d/%m/%Y")

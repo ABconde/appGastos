@@ -62,3 +62,30 @@ def create(obj):
         message = { 'Error': str(e) }
         code = 500
     return { "message": message, "code": code }
+
+def update(expense, obj):
+    try:
+        date = datetime.strptime(obj.get('date'), "%d/%m/%Y")
+        expense_ref.document(expense).update({
+            'comment': obj.get('comment'),
+            'amount': obj.get('amount'),
+            'account': obj.get('account'),
+            'date': date,
+            'updated_date': datetime.now()
+        })
+        message = { 'message': "Gasto Actualizado" }
+        code = 200
+    except Exception as e:
+        message = { 'Error': str(e) }
+        code = 500
+    return { "message": message, "code": code }
+
+def delete(expense):
+    try:
+        expense_ref.document(expense).delete()
+        message = { 'message': "Gasto Eliminado" }
+        code = 200
+    except Exception as e:
+        message = { 'Error': str(e) }
+        code = 500
+    return { "message": message, "code": code }

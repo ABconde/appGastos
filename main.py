@@ -46,13 +46,13 @@ def update_user_pass(id):
     return format_response(userService.change_password(id, obj))
 
 # -------- Accounts --------
-@app.route("/account/<user>", methods=['GET'])
+@app.route("/account/user/<user>", methods=['GET'])
 def get_account_by_user(user):
     return format_response(accountService.get_by_user(user))
 
 @app.route("/account/<id>", methods=['GET'])
 def get_account(id):
-    return format_response(accountService.get_by_user(id))
+    return format_response(accountService.get(id))
 
 @app.route("/account", methods=['POST'])
 def create_account():
@@ -83,6 +83,15 @@ def get_expenses_by_account_and_date_range(account):
 def create_expense():
     obj = request.get_json()
     return format_response( expenseService.create(obj) )
+
+@app.route("/expense/<id>", methods=['PUT'])
+def update_expnse(id):
+    obj = request.get_json()
+    return format_response(expenseService.update(id, obj))
+
+@app.route("/expense/<id>", methods=['DELETE'])
+def delete_expense(id):
+    return format_response(expenseService.delete(id))
 
 # -------- Functions --------
 
